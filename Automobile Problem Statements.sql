@@ -1,22 +1,8 @@
-/*
-
------------------------------------------------------------------------------------------------------------------------------------
-													    Guidelines
------------------------------------------------------------------------------------------------------------------------------------
-
-The provided document is a guide for the project. Follow the instructions and take the necessary steps to finish
-the project in the SQL file			
-
------------------------------------------------------------------------------------------------------------------------------------
-                                                         Queries                                            
------------------------------------------------------------------------------------------------------------------------------------*/
-  
-/*-- QUESTIONS RELATED TO CUSTOMERS
-     [Q1] What is the distribution of customers across states?
-     
-     Hint: For each state, count the number of customers.*/
+/*-- CUSTOMERS QUERIES:-
+     The distribution of customers across states.
+*/
 	
-	 #Ans 1	
+		
 		select 
 			State, 
             count(*) as Customer_Count 
@@ -26,13 +12,11 @@ the project in the SQL file
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*   [Q2] What is the average rating in each quarter?
+/*   The average rating in each quarter rated as following:-
 --   Very Bad is 1, Bad is 2, Okay is 3, Good is 4, Very Good is 5.
+ */
 
-Hint: Use a common table expression and in that CTE, assign numbers to the different customer ratings. 
-      Now average the feedback for each quarter. */
-
-	 #Ans 2	
+		
 		with CTE1
 			as (select quarter_number,
 				round(avg(case 
@@ -58,14 +42,11 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*   [Q3] Are customers getting more dissatisfied over time?
+/*   Are customers getting more dissatisfied over time or not.
 
-	Hint: Need the percentage of different types of customer feedback in each quarter. Use a common table expression and
-		  determine the number of customer feedback in each category as well as the total number of customer feedback in each quarter.
-		  Now use that common table expression to find out the percentage of different types of customer feedback in each quarter.
-		  Eg: (total number of very good feedback/total customer feedback)* 100 gives you the percentage of very good feedback.*/
+*/
       
-     #Ans 3
+   
 		with CTE1
 			as (select 
 					quarter_number, 
@@ -95,11 +76,11 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 	
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*  [Q4] Which are the top 5 vehicle makers preferred by the customer.
+/*  The top 5 vehicle makers preferred by the customer.
 
-    Hint: For each vehicle make what is the count of the customers.*/
+ */
 
-	#Ans 4
+	
 		select 
 			p.vehicle_maker as Vehicle_Make,
 			count(o.customer_id) as Total_Customer_Count
@@ -112,12 +93,10 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 		
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*  [Q5] What is the most preferred vehicle make in each state?
+/*  The most preferred vehicle make in each state.
+*/
 
-	Hint: Use the window function RANK() to rank based on the count of customers for each state and vehicle maker. 
-	After ranking, take the vehicle maker whose rank is 1.*/
-
-    #Ans 5
+ 
 		select 
 			State,
 			Vehicle_Maker,
@@ -140,13 +119,12 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*QUESTIONS RELATED TO REVENUE and ORDERS 
+/* QUERY RELATED TO REVENUE and ORDERS 
 
---  [Q6] What is the trend of number of orders by quarters?
+--  The trend of number of orders by quarters.
+*/
 
-    Hint: Count the number of orders for each quarter.*/
-
-	#Ans 6
+	
 		select 
 			quarter_number as Quarter_Number,
 			count(quarter_number) as Order_Count
@@ -156,13 +134,10 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
         
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*   [Q7] What is the quarter over quarter % change in revenue?
-
-	 Hint: Quarter over Quarter percentage change in revenue means what is the change in revenue from the subsequent quarter to the previous quarter in percentage.
-		  To calculate you need to use the common table expression to find out the sum of revenue for each quarter.
-		  Then use that CTE along with the LAG function to calculate the QoQ percentage change in revenue. */
+/*   The quarter over quarter % change in revenue.
+*/
       
-	 #Ans 7
+	
 		with CTE as
 			(
 			select 
@@ -180,11 +155,10 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*   [Q8] What is the trend of revenue and orders by quarters?
+/*   The trend of revenue and orders by quarters.
+*/
 
-	 Hint: Find out the sum of revenue and count the number of orders for each quarter.*/
-
-	 #Ans 8
+	
 		select 
 			quarter_number as Quarter_Number,
 			count(quarter_number) as Order_Count,
@@ -195,12 +169,11 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
         
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*  QUESTIONS RELATED TO SHIPPING 
-     [Q9] What is the average discount offered for different types of credit cards?
+/*  QUERY RELATED TO SHIPPING 
+     The average discount offered for different types of credit cards?
+*/
 
-	 Hint: Find out the average of discount for each credit card type.*/
-
-	 #Ans 9
+	 
 		select 
 			c.credit_card_type as Credit_Card,
 			round(avg(o.discount),2) as Avg_Discount
@@ -211,10 +184,10 @@ Hint: Use a common table expression and in that CTE, assign numbers to the diffe
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-/*   [Q10] What is the average time taken to ship the placed orders for each quarters?
-	 Hint: Use the dateiff function to find the difference between the ship date and the order date. */
+/*   The average time taken to ship the placed orders for each quarters?
+*/
 
-     #Ans 10
+     
 		select 
 			quarter_number as Quarter_number,
 			round(avg(datediff(ship_date,order_date)),2) as Average_Shipping_Time
